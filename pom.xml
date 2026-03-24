@@ -18,6 +18,7 @@
         <module>blade-security</module>
         <module>blade-websocket</module>
         <module>blade-examples</module>
+        <module>blade-dev</module>
     </modules>
 
     <licenses>
