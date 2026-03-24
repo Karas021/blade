@@ -84,7 +84,10 @@ public class StaticFileHandler implements RequestHandler {
 
     public StaticFileHandler(Blade blade) {
         this.showFileList = blade.environment().getBoolean(BladeConst.ENV_KEY_STATIC_LIST, false);
-        this.staticFileCacheSeconds = blade.environment().getInt(BladeConst.ENV_KEY_STATIC_CACHE_SECONDS, 86400 * 30);
+        /**
+         * Karas 20260324
+         */
+        this.staticFileCacheSeconds = blade.environment().getInt(BladeConst.ENV_KEY_STATIC_CACHE_SECONDS, 1/*86400 * 30*/);
     }
 
     /**

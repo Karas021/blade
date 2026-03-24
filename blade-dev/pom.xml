@@ -13,7 +13,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.release>17</maven.compiler.release>
+    <maven.compiler.release>8</maven.compiler.release>
   </properties>
 
   <dependencyManagement>
@@ -29,6 +29,11 @@
   </dependencyManagement>
 
   <dependencies>
+    <dependency>
+      <groupId>com.bladejava</groupId>
+      <artifactId>blade-beetl</artifactId>
+      <version>1.2.4</version>
+    </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>番组手帐 · 2026 日本动画新番</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #faf7f2;
+            background-image: radial-gradient(#e9e3d8 0.8px, transparent 0.8px);
+            background-size: 24px 24px;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', 'Noto Sans CJK SC', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+            color: #1f2a2e;
+            line-height: 1.5;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* 博客头部 */
+        .blog-header {
+            margin-bottom: 3rem;
+            border-bottom: 2px solid #e2dcd0;
+            padding-bottom: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .title-section h1 {
+            font-size: 2.6rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #2c3e2f, #8b5a2b);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+        }
+
+        .title-section p {
+            color: #6b5a4c;
+            margin-top: 0.5rem;
+            font-weight: 400;
+            border-left: 3px solid #c7b28b;
+            padding-left: 0.75rem;
+        }
+
+        .blog-meta {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #8f7a64;
+        }
+
+        .blog-meta .year {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: #b48c48;
+            line-height: 1;
+        }
+
+        /* 统计栏 */
+        .stats-bar {
+            background: #fffaf3;
+            border-radius: 2rem;
+            padding: 0.6rem 1.2rem;
+            margin-bottom: 2rem;
+            display: inline-block;
+            font-size: 0.85rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+            border: 1px solid #ece3d8;
+            backdrop-filter: blur(2px);
+        }
+
+        .stats-bar span {
+            font-weight: 600;
+            color: #a5662a;
+        }
+
+        /* 番剧网格 */
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0 3rem;
+        }
+
+        /* 卡片风格 —— 柔和笔记本风 */
+        .anime-card {
+            background: #ffffffea;
+            backdrop-filter: blur(0px);
+            border-radius: 24px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+            border: 1px solid #efe6db;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .anime-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 28px -12px rgba(0, 0, 0, 0.12);
+            border-color: #decbae;
+        }
+
+        .card-header {
+            padding: 1.25rem 1.25rem 0.6rem 1.25rem;
+            border-bottom: 1px dashed #f0e4d4;
+        }
+
+        .anime-name {
+            font-size: 1.3rem;
+            font-weight: 650;
+            letter-spacing: -0.2px;
+            color: #2e3b2c;
+            line-height: 1.35;
+        }
+
+        .anime-name-jp {
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: #a3896b;
+            margin-top: 0.25rem;
+            letter-spacing: 0.3px;
+        }
+
+        .card-body {
+            padding: 0.9rem 1.25rem 1.1rem;
+            flex: 1;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.6rem;
+            font-size: 0.85rem;
+        }
+
+        .season-badge {
+            background: #f0e4d2;
+            color: #7c5e3a;
+            padding: 0.2rem 0.6rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .tag {
+            background: #f3eee7;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #6d5c48;
+        }
+
+        .desc {
+            font-size: 0.85rem;
+            color: #4b3f32;
+            margin-top: 0.75rem;
+            border-left: 2px solid #e3cfb5;
+            padding-left: 0.7rem;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #b9aa93;
+            border-top: 1px solid #e9e0d2;
+            padding-top: 2rem;
+            margin-top: 1rem;
+        }
+
+        .footer-note a {
+            color: #a7753a;
+            text-decoration: none;
+            border-bottom: 1px dotted;
+        }
+
+        @media (max-width: 680px) {
+            body {
+                padding: 1rem;
+            }
+            .title-section h1 {
+                font-size: 2rem;
+            }
+            .blog-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.8rem;
+            }
+            .blog-meta {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="blog-header">
+        <div class="title-section">
+            <h1>🍊 番组手帐</h1>
+            <p>2026年 日本TV动画 · 追番记录<br>数据整理自蜜柑计划及季番情报</p>
+        </div>
+        <div class="blog-meta">
+            <div class="year">2026</div>
+            <div>令和八年 · 春往秋来</div>
+        </div>
+    </div>
+
+    <div class="stats-bar">
+        📺 共收录 <span id="animeCount"></span> 部2026年已开播/确定放送的TV动画系列<br>
+        🎬 每周持续更新 · 不含剧场版/OVA
+    </div>
+
+    <div class="anime-grid" id="animeGrid"></div>
+
+    <div class="footer-note">
+        ✨ 数据主要参考自 <a href="https://mikanime.tv/" target="_blank" rel="noopener noreferrer">蜜柑计划 Mikanime.tv</a> 及2026年冬季/春季新番列表<br>
+        📅 实际播出时间以官方为准 · 手帐会随着新番情报悄悄生长 🌱
+    </div>
+</div>
+
+<script>
+    // 2026年日本TV动画番剧数据 (基于蜜柑计划页面及2026已公开新番)
+    // 包含冬季(1月)及春季(4月)已确定放送的TV作品，排除剧场版/OVA/特别篇。
+    const animeList2026 = [
+        { name: "铠真传 武士军团", nameJp: "Yoroi Shinden: Samurai Legion", season: "冬", desc: "机甲武士 × 战国科幻，全新动画企划" },
+        { name: "午夜的倾心旋律", nameJp: "Mayoeru Yoru no Melody", season: "冬", desc: "都市浪漫物语，音乐与再会" },
+        { name: "阿尔涅的事件簿", nameJp: "Arne no Jikenbo", season: "冬", desc: "谜之侦探事务所的欧洲奇幻推理" },
+        { name: "达尔文事变", nameJp: "Darwin Jihen", season: "冬", desc: "人类与猩猩混血儿的伦理科幻" },
+        { name: "Fate/strange Fake", nameJp: "Fate/strange Fake", season: "冬", desc: "虚伪圣杯战争，群像激斗" },
+        { name: "蓝色管弦乐 第二季", nameJp: "Ao no Orchestra Season 2", season: "冬", desc: "青春交响 × 成长续篇" },
+        { name: "数码宝贝 BEATBREAK", nameJp: "Digimon BEATBREAK", season: "冬", desc: "全新数码兽系列，节奏疾走" },
+        { name: "SI-VIS：英雄之声", nameJp: "SI-VIS: Heroic Voice", season: "冬", desc: "声音力量 × 英雄特摄风" },
+        { name: "异国日记", nameJp: "Ikoku Nikki", season: "冬", desc: "文学少女与少女的同居生活，细腻治愈" },
+        { name: "火喰鸟 羽州褴褛鸢组", nameJp: "Hikuidori: Ushu Rangumi", season: "冬", desc: "幕末 × 妖怪退治，硬派时代剧" },
+        { name: "花样少年少女", nameJp: "Hana Kimi", season: "冬", desc: "经典少女漫新动画化" },
+        { name: "打工仔的拷问日常", nameJp: "Baito no Goumon Nichijou", season: "冬", desc: "异世界拷问姬 × 打工人日常喜剧" },
+        { name: "地狱乐 第二季", nameJp: "Jigokuraku Season 2", season: "冬", desc: "终末忍者求生，第二幕开幕" },
+        { name: "相反的你和我", nameJp: "Urahara to Watashi", season: "冬", desc: "性格相反的双人同居恋爱喜剧" },
+        { name: "神八小妹不可怕", nameJp: "Kamihachi-chan wa Kowakunai", season: "冬", desc: "非人少女与日常，温馨单元剧" },
+        { name: "皎洁迎宵之月", nameJp: "Kougetsu no Yoru", season: "冬", desc: "和风幻想 × 少年少女羁绊" },
+        { name: "暗芝居 第十六季", nameJp: "Yami Shibai Season 16", season: "冬", desc: "都市怪谈短篇，纸芝居风味" },
+        { name: "草莓哀歌", nameJp: "Ichigo Elegy", season: "冬", desc: "乐队与思春期，原创动画" },
+        { name: "极速车魂 第三季", nameJp: "MF Ghost Season 3", season: "冬", desc: "公路竞速，热血续章" },
+        { name: "名侦探光之美少女！", nameJp: "Meitantei Precure!", season: "冬", desc: "Q娃系列 × 推理剧场" },
+        { name: "公鸡斗士", nameJp: "Cockfighter", season: "冬", desc: "异色格斗 × 地下竞技" },
+        { name: "致不灭的你 第三季", nameJp: "Fumetsu no Anata e Season 3", season: "冬", desc: "不死者之旅，新章展开" },
+        { name: "古诺希亚", nameJp: "GNOSIA", season: "冬", desc: "科幻狼人杀游戏改编，太空悬疑" },
+        { name: "金牌得主 第二季", nameJp: "Medalist Season 2", season: "冬", desc: "花样滑冰 × 竞技励志续篇" },
+        { name: "TRIGUN STARGAZE", nameJp: "TRIGUN STARGAZE", season: "冬", desc: "经典重启动画，星际枪侠" },
+        { name: "勇者之屑", nameJp: "Yuusha no Kuzu", season: "冬", desc: "反套路勇者 × 黑色幽默" },
+        { name: "葬送的芙莉莲 第二季", nameJp: "Sousou no Frieren Season 2", season: "冬", desc: "魔法使的旅途，感动延续" },
+        { name: "高校奇面组", nameJp: "High School! Kimengumi", season: "冬", desc: "昭和搞笑漫画全新动画" },
+        { name: "厄里斯的圣杯", nameJp: "Eris no Seihai", season: "冬", desc: "贵族千金 × 推理复仇" },
+        { name: "蘑菇魔女", nameJp: "Kinoko Majo", season: "冬", desc: "奇幻田园，魔女与菌类" },
+        { name: "29岁单身冒险家的日常", nameJp: "29-sai Dokushin Boukensha no Nichijou", season: "冬", desc: "中年冒险者温馨慢生活" },
+        { name: "靠死亡游戏混饭吃。", nameJp: "Death Game de Kui wo Hodo", season: "冬", desc: "生存游戏 × 美食料理" },
+        { name: "优雅贵族的休假指南。", nameJp: "Yuuga na Kizoku no Kyuuka Guide", season: "冬", desc: "异世界贵族散步轻改" },
+        { name: "地狱老师 第2部分", nameJp: "Jigoku Sensei Nube Part 2", season: "冬", desc: "经典灵异教师新章" },
+        { name: "【我推的孩子】 第三季", nameJp: "【Oshi no Ko】 Season 3", season: "春", desc: "演艺圈复仇 × 闪耀续篇" },
+        { name: "名侦探柯南", nameJp: "Detective Conan", season: "长期", desc: "国民长寿番组，2026继续放送" },
+        { name: "航海王", nameJp: "ONE PIECE", season: "长期", desc: "蛋头岛激战进行中" },
+        { name: "宝可梦 地平线", nameJp: "Pokémon Horizons", season: "长期", desc: "莉可罗伊冒险新章" },
+        { name: "哆啦A梦", nameJp: "Doraemon", season: "长期", desc: "日常惊喜，常规放送" },
+        { name: "吉伊卡哇", nameJp: "Chiikawa", season: "长期", desc: "可爱又致郁的迷你动画" }
+    ];
+
+    // 补充部分冬/春未收录但已确认的TV番组 (基于2026年1月/4月档)
+    animeList2026.push(
+        { name: "再见了，地球 第二季", nameJp: "Sayonara, Earth Season 2", season: "春", desc: "奇幻漂流，世界谜团" },
+        { name: "彻夜之歌 第二季", nameJp: "Yofukashi no Uta Season 2", season: "春", desc: "吸血鬼夜游，续章" },
+        { name: "好想告诉你 第三季", nameJp: "Kimi ni Todoke Season 3", season: "春", desc: "经典少女漫，最终乐章" }
+    );
+
+    // 去重逻辑（根据名字前段简易防重复）
+    const uniqueMap = new Map();
+    for (const anime of animeList2026) {
+        const key = anime.name.replace(/[第\d+季|Part\d+]/g, '').trim();
+        if (!uniqueMap.has(key)) {
+            uniqueMap.set(key, anime);
+        }
+    }
+    const finalAnimeList = Array.from(uniqueMap.values());
+
+    // 排序：长期 > 冬 > 春 > 其他 (保持可读)
+    const seasonOrder = { "长期": 0, "冬": 1, "春": 2 };
+    finalAnimeList.sort((a, b) => (seasonOrder[a.season] || 3) - (seasonOrder[b.season] || 3));
+
+    // 渲染
+    const grid = document.getElementById('animeGrid');
+    const countSpan = document.getElementById('animeCount');
+
+    function renderCards() {
+        grid.innerHTML = '';
+        finalAnimeList.forEach(anime => {
+            const card = document.createElement('div');
+            card.className = 'anime-card';
+
+            // 季节徽章文本
+            let seasonLabel = '';
+            if (anime.season === '冬') seasonLabel = '❄️ 2026冬季';
+            else if (anime.season === '春') seasonLabel = '🌸 2026春季';
+            else if (anime.season === '长期') seasonLabel = '📡 连载中';
+            else seasonLabel = '🎬 预定';
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="anime-name">${escapeHtml(anime.name)}</div>
+                    <div class="anime-name-jp">${escapeHtml(anime.nameJp || '')}</div>
+                </div>
+                <div class="card-body">
+                    <div class="info-row">
+                        <span class="season-badge">${seasonLabel}</span>
+                        <span class="tag">TV 动画</span>
+                    </div>
+                    <div class="desc">${escapeHtml(anime.desc || '追番手帐 · 敬请期待')}</div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+        countSpan.innerText = finalAnimeList.length;
+    }
+
+    // 简单防XSS
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    renderCards();
+</script>
+</body>
+</html>
